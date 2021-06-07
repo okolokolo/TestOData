@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:TestOData.DataAccess.BookStoreContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)")]
+[assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:TestOData.DataAccess.Repositories.BooksRepository.#ctor(RSM.Core.Logging.Extensions.Adapters.ILoggerAdapter{TestOData.DataAccess.Repositories.BooksRepository},TestOData.DataAccess.BookStoreContext)")]

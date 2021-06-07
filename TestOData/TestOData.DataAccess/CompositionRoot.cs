@@ -13,7 +13,7 @@ namespace TestOData.DataAccess
         public static IServiceCollection RegisterDataAccess(this IServiceCollection services)
         {
             // Services
-            services.AddTransient<IWeatherRepository, WeatherRepository>();
+            services.AddTransient<IBooksRepository, BooksRepository>();
 
             return services;
         }

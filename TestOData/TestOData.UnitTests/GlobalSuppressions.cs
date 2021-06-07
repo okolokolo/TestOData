@@ -2,4 +2,7 @@
 // attributes that are applied to this project.
 // Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>", Scope = "member", Target = "~M:TestOData.UnitTests.Api.Controllers.v1.WeatherForecastControllerTests.Get_WhenNoWeatherDataFound_ReturnsNotFoundResponse~System.Threading.Tasks.Task")]
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>", Scope = "member", Target = "~M:TestOData.UnitTests.Api.Controllers.v1.BooksControllerTests.Get_WhenNoWeatherDataFound_ReturnsNotFoundResponse~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>", Scope = "member", Target = "~M:TestOData.UnitTests.Api.Controllers.v1.BooksControllerTests.Get_WhenNoBookDataFound_ReturnsNotFoundResponse~System.Threading.Tasks.Task")]

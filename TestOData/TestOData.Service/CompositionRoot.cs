@@ -13,7 +13,7 @@ namespace TestOData.Service
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             // Services
-            services.AddTransient<IWeatherService, WeatherService>();
+            services.AddTransient<IBooksService, BooksService>();
 
             return services;
         }

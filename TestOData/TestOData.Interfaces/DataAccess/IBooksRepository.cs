@@ -5,8 +5,8 @@ using TestOData.Model;
 
 namespace TestOData.Interfaces.DataAccess
 {
-    public interface IWeatherRepository
+    public interface IBooksRepository
     {
-        Task<IList<WeatherForecast>> GetWeatherData();
+        Task<IList<Book>> GetBooks();
     }
 }
