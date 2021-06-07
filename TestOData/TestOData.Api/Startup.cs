@@ -41,7 +41,11 @@ namespace TestOData.Api
                 })
                 .AddTransient<IResponseFormatter, DefaultResponseFormatter>()
                 .AddControllers()
-                .AddOData(opt => opt.AddModel("odata", GetEdmModel())); ;
+                .AddOData(opt => opt.AddModel("odata", GetEdmModel()));
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,12 +56,25 @@ namespace TestOData.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ConfigureSwagger("TemplateWebApp")
-            .ConfigureResponseWrapper(new WrapperMiddlewareOptions
+            //TODO: this was not working for some reason
+            //app.ConfigureSwagger("Test OData Project")
+            //.ConfigureResponseWrapper(new WrapperMiddlewareOptions
+            //{
+            //    WhiteListPaths = new List<string> { "/api/v1" }
+            //})
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
             {
-                WhiteListPaths = new List<string> { "/api/v1" }
-            })
-            .UseHttpsRedirection()
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+
+            app.UseHttpsRedirection()
             .UseRouting()
             .UseAuthorization()
             .UseEndpoints(endpoints =>
