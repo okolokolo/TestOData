@@ -1,14 +1,18 @@
 ﻿
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using RSM.Core.AspNet.Extensions;
 using RSM.Core.AspNet.Response;
 using RSM.Core.Logging.Extensions.Adapters;
 using System.Collections.Generic;
 using TestOData.DataAccess;
+using TestOData.Model;
 using TestOData.Service;
 
 namespace TestOData.Api
@@ -25,6 +29,8 @@ namespace TestOData.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddRouting();
+
             services
                 .RegisterServices()
                 .RegisterDataAccess()
@@ -34,7 +40,8 @@ namespace TestOData.Api
                     options.AllowSynchronousIO = true;
                 })
                 .AddTransient<IResponseFormatter, DefaultResponseFormatter>()
-                .AddControllers();
+                .AddControllers()
+                .AddOData(opt => opt.AddModel("odata", GetEdmModel())); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,5 +65,14 @@ namespace TestOData.Api
                 endpoints.MapControllers();
             });
         }
+
+        private static IEdmModel GetEdmModel()
+        {
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Book>("Books");
+            builder.EntitySet<Press>("Presses");
+            return builder.GetEdmModel();
+        }
+
     }
 }
