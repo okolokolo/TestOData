@@ -32,11 +32,25 @@ namespace TestOData.Service.Services
             if (books.Count == 0)
             {
                 _logger.LogError("No book data found.", new LogItem<BooksService>());
-
                 throw new NotFoundException("No book data found.");
             }
 
             return books;
         }
+
+        public async Task<Book> GetBook(int key)
+        {
+            var book = await _booksRepository.GetBook(key).ConfigureAwait(false);
+            
+            if (book == null)
+            {
+                _logger.LogError($"No book data with {key} found.", new LogItem<BooksService>());
+
+                throw new NotFoundException($"No book data with {key} found.");
+            }
+
+            return book;
+        }
+
     }
 }

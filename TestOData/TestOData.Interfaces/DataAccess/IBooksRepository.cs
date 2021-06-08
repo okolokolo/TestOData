@@ -7,6 +7,7 @@ namespace TestOData.Interfaces.DataAccess
 {
     public interface IBooksRepository
     {
+        Task<Book> GetBook(int key);
         Task<IList<Book>> GetBooks();
     }
 }

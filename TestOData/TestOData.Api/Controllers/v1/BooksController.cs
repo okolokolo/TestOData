@@ -48,5 +48,26 @@ namespace TestOData.Api.Controllers.v1
                 return NotFound();
             }
         }
+
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            _logger.LogDebug(ReceivedRequest, new LogItem<BooksController>());
+
+            try
+            {
+                var bookData = await _bookService.GetBook(id).ConfigureAwait(false);
+
+                return new OkObjectResult(bookData);
+            }
+            catch (NotFoundException ex)
+            {
+                _logger.LogDebug(ex.Message, new LogItem<BooksController>());
+
+                return NotFound();
+            }
+        }
     }
 }

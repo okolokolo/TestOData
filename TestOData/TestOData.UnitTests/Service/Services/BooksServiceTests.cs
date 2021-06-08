@@ -29,8 +29,9 @@ namespace TestOData.UnitTests.Service.Services
             sut = new BooksService(_mockLogger.Object, _mockBooksRepository.Object);
         }
 
+        #region Get Books
         [Fact]
-        public void GetBook_WhenBookDataNotFound_ThrowsNotFoundResult()
+        public void GetBooks_WhenBookDataNotFound_ThrowsNotFoundResult()
         {
             // Arrange
             _mockBooksRepository.Setup(r => r.GetBooks())
@@ -42,7 +43,7 @@ namespace TestOData.UnitTests.Service.Services
         }
 
         [Fact]
-        public async Task GetWeeklyForecast_WhenWeatherDataFound_ReturnsWeeklyForecast()
+        public async Task GetBooks_WhenBookDataFound_ReturnsBookData()
         {
             // Arrange
             var bookData = DataSource.GetBooks();
@@ -56,6 +57,45 @@ namespace TestOData.UnitTests.Service.Services
             Assert.NotNull(result);
             Assert.Equal(2, result.Count);
         }
+        #endregion
+
+        #region Get Book
+        [Fact]
+        public void GetBook_WhenBookDataNotFound_ThrowsNotFoundResult()
+        {
+            // Arrange
+            int key = 0;
+
+            var bookData = DataSource.GetBooks();
+            _mockBooksRepository.Setup(r => r.GetBooks())
+                .ReturnsAsync(bookData);
+
+            _mockBooksRepository.Setup(r => r.GetBook(key))
+                .ReturnsAsync(new Book());
+            _mockLogger.Setup(l => l.LogError($"No book data with {key} found.", It.IsAny<LogItem<BooksService>>()));
+
+            // Act & Assert
+            Assert.ThrowsAsync<NotFoundException>(() => sut.GetBook(key));
+        }
+
+        [Fact]
+        public async Task GetBook_WhenBookDataFound_ReturnsBookData()
+        {
+            // Arrange
+            int key = 1;
+
+            var bookData = DataSource.GetBooks();
+            _mockBooksRepository.Setup(r => r.GetBooks())
+                .ReturnsAsync(bookData);
+
+            // Act
+            var result = await sut.GetBook(key).ConfigureAwait(false);
+
+            // Assert
+            Assert.NotNull(result);
+
+        }
+        #endregion
 
         public void Dispose()
         {

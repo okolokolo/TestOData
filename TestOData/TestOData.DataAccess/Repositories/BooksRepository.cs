@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RSM.Core.Logging.Extensions.Adapters;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TestOData.Interfaces.DataAccess;
 using TestOData.Model;
@@ -27,6 +28,13 @@ namespace TestOData.DataAccess.Repositories
         public async Task<IList<Book>> GetBooks()
         {
             return await _context.Books.ToListAsync().ConfigureAwait(false);
+        }
+
+        public async Task<Book> GetBook(int key)
+        {
+            var books = await GetBooks().ConfigureAwait(false);
+
+            return books.SingleOrDefault(b => b.Id == key);
         }
     }
 }

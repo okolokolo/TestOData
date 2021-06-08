@@ -7,6 +7,7 @@ namespace TestOData.Interfaces.Service
 {
     public interface IBooksService
     {
+        Task<Book> GetBook(int key);
         Task<IList<Book>> GetBooks();
     }
 }
