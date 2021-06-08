@@ -34,7 +34,7 @@ namespace TestOData.DataAccess.Repositories
         {
             var books = await GetBooks().ConfigureAwait(false);
 
-            return books.SingleOrDefault(b => b.Id == key);
+            return books.Single(b => b.Id == key);
         }
     }
 }
