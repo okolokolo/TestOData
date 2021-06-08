@@ -8,8 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using RSM.Core.AspNet.Extensions;
 using RSM.Core.AspNet.Response;
 using RSM.Core.Logging.Extensions.Adapters;
+using System.Collections.Generic;
 using TestOData.DataAccess;
 using TestOData.Model;
 using TestOData.Service;
@@ -40,11 +42,12 @@ namespace TestOData.Api
                 {
                     options.AllowSynchronousIO = true;
                 })
-                .AddTransient<IResponseFormatter, DefaultResponseFormatter>()
+                //.AddTransient<IResponseFormatter, DefaultResponseFormatter>()
                 .AddControllers()
                 .AddOData(opt => opt.AddModel("odata", GetEdmModel()));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
+            //services.AddSwaggerService();
             services.AddSwaggerGen();
 
         }
@@ -55,25 +58,29 @@ namespace TestOData.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                //TODO: this was not working for some reason
-                //app.ConfigureSwagger("Test OData Project")
-                //.ConfigureResponseWrapper(new WrapperMiddlewareOptions
-                //{
-                //    WhiteListPaths = new List<string> { "/api/v1" }
-                //})
-
-                // Enable middleware to serve generated Swagger as a JSON endpoint.
-                app.UseSwagger();
-
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                // specifying the Swagger JSON endpoint.
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test OData API");
-                });
-
             }
+
+            //TODO: this was not working for some reason
+            //app.UseSwaggerApp()
+            //.ConfigureResponseWrapper(new WrapperMiddlewareOptions
+            //{
+            //    WhiteListPaths = new List<string> { "/api/v1" }
+            //});
+
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+            });
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test ODATA API V1");
+            });
+
 
             app.UseHttpsRedirection()
             .UseRouting()
