@@ -18,8 +18,7 @@ namespace TestOData.Api
         ///     Apply the filter to the operation.
         /// </summary>
         /// <param name="operation">The API operation to check.</param>
-        /// <param name="schemaRegistry">The swagger schema registry.</param>
-        /// <param name="apiDescription">The description of the api method.</param>
+        /// <param name="context">The context of the method assoicated with the API.</param>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             if (context.MethodInfo.CustomAttributes.Any(ca => ca.AttributeType == typeof(EnableQueryAttribute)))
