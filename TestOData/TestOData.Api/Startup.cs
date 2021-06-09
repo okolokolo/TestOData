@@ -51,7 +51,7 @@ namespace TestOData.Api
             services.AddOData();
             // Register the Swagger generator, defining 1 or more Swagger documents
             //services.AddSwaggerService();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => c.OperationFilter<ODataParametersSwaggerDefinition>());
             services.AddFormatters();
         }
 

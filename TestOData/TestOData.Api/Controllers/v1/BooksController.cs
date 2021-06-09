@@ -51,7 +51,6 @@ namespace TestOData.Api.Controllers.v1
             }
         }
         [HttpGet("{key:int}")]
-        [EnableQuery]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int key)
@@ -73,7 +72,6 @@ namespace TestOData.Api.Controllers.v1
         }
 
         [HttpPost]
-        [EnableQuery]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] Book book)

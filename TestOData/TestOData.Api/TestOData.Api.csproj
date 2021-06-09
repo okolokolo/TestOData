@@ -31,6 +31,8 @@
     <PackageReference Include="RSM.Core.AspNet" Version="2.0.0-CI-20200327004" />
     <PackageReference Include="RSM.Core.Configuration" Version="1.0.5" />
     <PackageReference Include="RSM.Core.Logging" Version="1.2.1-CI-20200313003" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.2.1" />
   </ItemGroup>
 
   <ItemGroup>
