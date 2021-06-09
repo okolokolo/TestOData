@@ -44,7 +44,10 @@ namespace TestOData.Api
                 })
                 //.AddTransient<IResponseFormatter, DefaultResponseFormatter>()
                 .AddControllers()
-                .AddOData(opt => opt.AddModel("odata", GetEdmModel()));
+                .AddOData(opt => {
+                    opt.Select().Expand().Filter().OrderBy().SetMaxTop(100).Count();
+                    opt.AddModel("odata", GetEdmModel());
+                });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             //services.AddSwaggerService();
