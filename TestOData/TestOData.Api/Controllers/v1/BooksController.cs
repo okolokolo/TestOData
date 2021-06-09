@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
 using RSM.Core.Logging.Extensions.Adapters;
 using RSM.Core.Logging.Shared;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace TestOData.Api.Controllers.v1
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class BooksController : ODataController
+    public class BooksController : ControllerBase
     {
         private const string ReceivedRequest = "Received request.";
 
@@ -51,18 +50,17 @@ namespace TestOData.Api.Controllers.v1
                 return NotFound();
             }
         }
-
-        [HttpGet("{id:int}")]
+        [HttpGet("{key:int}")]
         [EnableQuery]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> Get(int key)
         {
             _logger.LogDebug(ReceivedRequest, new LogItem<BooksController>());
 
             try
             {
-                var bookData = await _bookService.GetBook(id).ConfigureAwait(false);
+                var bookData = await _bookService.GetBook(key).ConfigureAwait(false);
 
                 return new OkObjectResult(bookData);
             }
@@ -81,7 +79,7 @@ namespace TestOData.Api.Controllers.v1
         public async Task<IActionResult> Post([FromBody] Book book)
         {
             book = await _bookService.CreateBook(book);
-            return Created(book);
+            return new ObjectResult(book);
         }
 
     }
