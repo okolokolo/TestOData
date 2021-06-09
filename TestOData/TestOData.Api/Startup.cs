@@ -93,20 +93,8 @@ namespace TestOData.Api
                 endpoints.EnableDependencyInjection();
                 endpoints.Select().Filter().Expand().OrderBy().MaxTop(100).Count();
                 endpoints.MapControllers();
-              
-                //endpoints.MapODataRoute(routeName: "api", routePrefix: "api", model: GetEdmModel());
             });
         }
-
-        private static IEdmModel GetEdmModel()
-        {
-            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Book>("Books");
-            builder.EntitySet<Press>("Presses");
-            return builder.GetEdmModel();
-        }
-
-        
 
     }
 }
