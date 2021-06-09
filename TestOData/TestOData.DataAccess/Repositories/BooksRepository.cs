@@ -36,5 +36,12 @@ namespace TestOData.DataAccess.Repositories
 
             return books.Single(b => b.Id == key);
         }
+
+        public async Task<Book> CreateBook(Book book)
+        {
+            await _context.Books.AddAsync(book);
+            await _context.SaveChangesAsync();
+            return book;
+        }
     }
 }

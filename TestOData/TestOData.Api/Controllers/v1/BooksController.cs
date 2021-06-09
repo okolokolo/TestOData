@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using RSM.Core.Logging.Extensions.Adapters;
 using RSM.Core.Logging.Shared;
 using System.Threading.Tasks;
@@ -12,7 +14,7 @@ namespace TestOData.Api.Controllers.v1
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class BooksController : ControllerBase
+    public class BooksController : ODataController
     {
         private const string ReceivedRequest = "Received request.";
 
@@ -29,6 +31,7 @@ namespace TestOData.Api.Controllers.v1
         }
 
         [HttpGet]
+        [EnableQuery]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
@@ -50,6 +53,7 @@ namespace TestOData.Api.Controllers.v1
         }
 
         [HttpGet("{id:int}")]
+        [EnableQuery]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
@@ -69,5 +73,16 @@ namespace TestOData.Api.Controllers.v1
                 return NotFound();
             }
         }
+
+        [HttpPost]
+        [EnableQuery]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Post([FromBody] Book book)
+        {
+            book = await _bookService.CreateBook(book);
+            return Created(book);
+        }
+
     }
 }

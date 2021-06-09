@@ -52,5 +52,10 @@ namespace TestOData.Service.Services
             return book;
         }
 
+        public async Task<Book> CreateBook(Book book)
+        {
+            return await _booksRepository.CreateBook(book);
+        }
+
     }
 }
