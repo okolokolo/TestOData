@@ -1,17 +1,13 @@
-﻿
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
+﻿using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OData.Edm;
 using RSM.Core.Logging.Extensions.Adapters;
 using System.Linq;
 using TestOData.DataAccess;
-using TestOData.Model;
 using TestOData.Service;
 
 namespace TestOData.Api
@@ -40,18 +36,16 @@ namespace TestOData.Api
                 {
                     options.AllowSynchronousIO = true;
                 })
-                //.AddTransient<IResponseFormatter, DefaultResponseFormatter>()
                 .AddControllers()
                 .AddNewtonsoftJson();
-            //.AddOData(opt => {
-            //    //opt
-            //    opt.AddModel("odata", GetEdmModel());
-            //});
 
+            // Register OData
             services.AddOData();
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            //services.AddSwaggerService();
+
+            // Register the Swagger generator use the class to define the odata parameters in swagger
             services.AddSwaggerGen(c => c.OperationFilter<ODataParametersSwaggerDefinition>());
+
+            // Adds Formatters so you can build odata endpoints in Swagger
             services.AddFormatters();
         }
 

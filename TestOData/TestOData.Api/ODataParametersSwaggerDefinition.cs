@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.OData;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,8 +11,6 @@ namespace TestOData.Api
     /// </summary>
     public class ODataParametersSwaggerDefinition : IOperationFilter
     {
-        private static readonly Type QueryableType = typeof(IQueryable);
-
         /// <summary>
         ///     Apply the filter to the operation.
         /// </summary>
