@@ -1,6 +1,5 @@
-﻿using Moq;
-using RSM.Core.Logging.Extensions.Adapters;
-using RSM.Core.Logging.Shared;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +17,14 @@ namespace TestOData.UnitTests.Service.Services
     {
         private readonly MockRepository moq;
         private readonly Mock<IBooksRepository> _mockBooksRepository;
-        private readonly Mock<ILoggerAdapter<BooksService>> _mockLogger;
+        private readonly Mock<ILogger<BooksService>> _mockLogger;
         private readonly IBooksService sut;
 
         public BooksServiceTests()
         {
             moq = new MockRepository(MockBehavior.Strict);
             _mockBooksRepository = moq.Create<IBooksRepository>();
-            _mockLogger = moq.Create<ILoggerAdapter<BooksService>>();
+            _mockLogger = moq.Create<ILogger<BooksService>>();
 
             sut = new BooksService(_mockLogger.Object, _mockBooksRepository.Object);
         }
@@ -37,7 +36,7 @@ namespace TestOData.UnitTests.Service.Services
             // Arrange
             _mockBooksRepository.Setup(r => r.GetBooks())
                 .ReturnsAsync(new List<Book>());
-            _mockLogger.Setup(l => l.LogError("No book data found.", It.IsAny<LogItem<BooksService>>()));
+           // _mockLogger.Setup(l => l.LogError("No book data found.", It.IsAny<LogItem<BooksService>>()));
 
             // Act & Assert
             Assert.ThrowsAsync<NotFoundException>(() => sut.GetBooks());

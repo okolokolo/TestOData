@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RSM.Core.Logging.Extensions.Adapters;
 using System.Linq;
 using TestOData.DataAccess;
 using TestOData.Service;
@@ -24,6 +23,7 @@ namespace TestOData.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
             services.AddDbContext<BookStoreContext>(opt => opt.UseInMemoryDatabase("BookLists"));
 
             services.AddRouting();
@@ -31,7 +31,6 @@ namespace TestOData.Api
             services
                 .RegisterServices()
                 .RegisterDataAccess()
-                .AddTransient(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>))
                 .Configure<IISServerOptions>(options =>
                 {
                     options.AllowSynchronousIO = true;
@@ -56,14 +55,6 @@ namespace TestOData.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            //TODO: this was not working for some reason
-            //app.UseSwaggerApp()
-            //.ConfigureResponseWrapper(new WrapperMiddlewareOptions
-            //{
-            //    WhiteListPaths = new List<string> { "/api/v1" }
-            //});
-
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger(c =>

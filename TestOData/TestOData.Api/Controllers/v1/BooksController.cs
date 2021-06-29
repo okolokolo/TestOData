@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RSM.Core.Logging.Extensions.Adapters;
-using RSM.Core.Logging.Shared;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using TestOData.Interfaces.Service;
 using TestOData.Model;
@@ -11,17 +10,16 @@ using TestOData.Service.Exceptions;
 namespace TestOData.Api.Controllers.v1
 {
     [ApiController]
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
     public class BooksController : ControllerBase
     {
         private const string ReceivedRequest = "Received request.";
 
-        private readonly ILoggerAdapter<BooksController> _logger;
+        private readonly ILogger<BooksController> _logger;
         private readonly IBooksService _bookService;
 
         public BooksController(
-            ILoggerAdapter<BooksController> logger,
+            ILogger<BooksController> logger,
             IBooksService weatherService
             )
         {
@@ -35,8 +33,6 @@ namespace TestOData.Api.Controllers.v1
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
         {
-            _logger.LogDebug(ReceivedRequest, new LogItem<BooksController>());
-
             try
             {
                 var bookData = await _bookService.GetBooks().ConfigureAwait(false);
@@ -45,7 +41,7 @@ namespace TestOData.Api.Controllers.v1
             }
             catch (NotFoundException ex)
             {
-                _logger.LogDebug(ex.Message, new LogItem<BooksController>());
+                _logger.LogDebug(ex.Message);
 
                 return NotFound();
             }
@@ -55,8 +51,6 @@ namespace TestOData.Api.Controllers.v1
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int key)
         {
-            _logger.LogDebug(ReceivedRequest, new LogItem<BooksController>());
-
             try
             {
                 var bookData = await _bookService.GetBook(key).ConfigureAwait(false);
@@ -65,7 +59,7 @@ namespace TestOData.Api.Controllers.v1
             }
             catch (NotFoundException ex)
             {
-                _logger.LogDebug(ex.Message, new LogItem<BooksController>());
+                _logger.LogDebug(ex.Message);
 
                 return NotFound();
             }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RSM.Core.Logging.Extensions.Adapters;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,12 +10,12 @@ namespace TestOData.DataAccess.Repositories
 {
     public class BooksRepository : IBooksRepository
     {
-        private readonly ILoggerAdapter<BooksRepository> _logger;
+        private readonly ILogger<BooksRepository> _logger;
         private readonly BookStoreContext _context;
 
         public BooksRepository
             (
-                ILoggerAdapter<BooksRepository> logger,
+                ILogger<BooksRepository> logger,
                 BookStoreContext context
             )
         {

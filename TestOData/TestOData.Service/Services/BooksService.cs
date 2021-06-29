@@ -1,7 +1,5 @@
-﻿using RSM.Core.Logging.Extensions.Adapters;
-using RSM.Core.Logging.Shared;
+﻿using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TestOData.Interfaces.DataAccess;
 using TestOData.Interfaces.Service;
@@ -12,12 +10,12 @@ namespace TestOData.Service.Services
 {
     internal class BooksService : IBooksService
     {
-        private readonly ILoggerAdapter<BooksService> _logger;
+        private readonly ILogger<BooksService> _logger;
         private readonly IBooksRepository _booksRepository;
 
         public BooksService
             (
-                ILoggerAdapter<BooksService> logger,
+                ILogger<BooksService> logger,
                 IBooksRepository weatherRepository
             )
         {
@@ -31,8 +29,9 @@ namespace TestOData.Service.Services
 
             if (books.Count == 0)
             {
-                _logger.LogError("No book data found.", new LogItem<BooksService>());
-                throw new NotFoundException("No book data found.");
+                var ex = new NotFoundException("No book data found.");
+                _logger.LogError(ex.Message);
+                throw ex;
             }
 
             return books;
@@ -44,9 +43,9 @@ namespace TestOData.Service.Services
             
             if (book == null)
             {
-                _logger.LogError($"No book data with {key} found.", new LogItem<BooksService>());
-
-                throw new NotFoundException($"No book data with {key} found.");
+                var ex = new NotFoundException($"No book data with {key} found.");
+                _logger.LogError(ex.Message);
+                throw ex;
             }
 
             return book;
