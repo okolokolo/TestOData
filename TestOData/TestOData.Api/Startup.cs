@@ -24,6 +24,7 @@ namespace TestOData.Api
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging();
+            
             services.AddDbContext<BookStoreContext>(opt => opt.UseInMemoryDatabase("BookLists"));
 
             services.AddRouting();
@@ -39,13 +40,14 @@ namespace TestOData.Api
                 .AddNewtonsoftJson();
 
             // Register OData
-            services.AddOData();
+            // services.AddOData();
 
             // Register the Swagger generator use the class to define the odata parameters in swagger
-            services.AddSwaggerGen(c => c.OperationFilter<ODataParametersSwaggerDefinition>());
+            // services.AddSwaggerGen(c => c.OperationFilter<ODataParametersSwaggerDefinition>());
+            services.AddSwaggerGen();
 
             // Adds Formatters so you can build odata endpoints in Swagger
-            services.AddFormatters();
+            // services.AddFormatters();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,8 +77,8 @@ namespace TestOData.Api
             .UseAuthorization()
             .UseEndpoints(endpoints =>
             {
-                endpoints.EnableDependencyInjection();
-                endpoints.Select().Filter().Expand().OrderBy().MaxTop(100).Count();
+                //endpoints.EnableDependencyInjection();
+                //endpoints.Select().Filter().Expand().OrderBy().MaxTop(100).Count();
                 endpoints.MapControllers();
             });
         }

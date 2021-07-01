@@ -10,11 +10,10 @@ using TestOData.Service.Exceptions;
 namespace TestOData.Api.Controllers.v1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version}/[controller]")]
     public class BooksController : ControllerBase
     {
-        private const string ReceivedRequest = "Received request.";
-
         private readonly ILogger<BooksController> _logger;
         private readonly IBooksService _bookService;
 
@@ -28,7 +27,7 @@ namespace TestOData.Api.Controllers.v1
         }
 
         [HttpGet]
-        [EnableQuery]
+        //[EnableQuery]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
