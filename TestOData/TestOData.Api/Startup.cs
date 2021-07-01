@@ -40,14 +40,13 @@ namespace TestOData.Api
                 .AddNewtonsoftJson();
 
             // Register OData
-            // services.AddOData();
+            services.AddOData();
 
             // Register the Swagger generator use the class to define the odata parameters in swagger
-            // services.AddSwaggerGen(c => c.OperationFilter<ODataParametersSwaggerDefinition>());
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => c.OperationFilter<ODataParametersSwaggerDefinition>());
 
             // Adds Formatters so you can build odata endpoints in Swagger
-            // services.AddFormatters();
+            services.AddFormatters();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,16 +70,16 @@ namespace TestOData.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test ODATA API V1");
             });
 
-
             app.UseHttpsRedirection()
             .UseRouting()
             .UseAuthorization()
             .UseEndpoints(endpoints =>
             {
-                //endpoints.EnableDependencyInjection();
-                //endpoints.Select().Filter().Expand().OrderBy().MaxTop(100).Count();
+                endpoints.EnableDependencyInjection();
+                endpoints.Select().Filter().Expand().OrderBy().MaxTop(100).Count();
                 endpoints.MapControllers();
             });
+
         }
 
     }

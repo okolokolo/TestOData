@@ -27,7 +27,7 @@ namespace TestOData.Api.Controllers.v1
         }
 
         [HttpGet]
-        //[EnableQuery]
+        [EnableQuery]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
@@ -45,6 +45,7 @@ namespace TestOData.Api.Controllers.v1
                 return NotFound();
             }
         }
+
         [HttpGet("{key:int}")]
         [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Book), StatusCodes.Status404NotFound)]
